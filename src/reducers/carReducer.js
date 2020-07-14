@@ -22,12 +22,22 @@
       case ACTIONS.ADD_FEATURE:
         return {
           ...state,
+          additionalFeatures: state.additionalFeatures.filter(feature => feature !== action.payload),
           car: {
             ...state.car,
             price: state.car.price + action.payload.price,
-            features: [...state.car.features + action.payload]
+            features: [...state.car.features, action.payload]
+          }
+        }
+      case ACTIONS.REMOVE_FEATURE:
+        return {
+          ...state,
+          car: {
+            ...state.car,
+            price: state.car.price - action.payload.price,
+            features: state.car.features.filter(feature => feature !== action.payload)
           },
-          additionalFeatures: state.additionalFeatures.filter(item => item.id !== action.payload.id)
+          additionalFeatures: [...state.additionalFeatures, action.payload]
         }
       default:
         return state
